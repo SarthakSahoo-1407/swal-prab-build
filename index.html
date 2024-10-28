@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Getting Started</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+    </script>
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jQuery UI JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body>
+    <div class="toolbar">
+        <label>
+            Select Language
+            <select id="langSelect">
+                <option value="hi">Hindi</option>
+                <option value="en">English</option>
+                <option value="as">Assamese</option>
+                <option value="bn">Bengali</option>
+                <option value="gu">Gujarati</option>
+                <option value="kn">Kannada</option>
+                <option value="ml">Malayalam</option>
+                <option value="mr">Marathi</option>
+                <option value="or">Odia</option>
+                <option value="pa">Punjabi</option>
+                <option value="ta">Tamil</option>
+                <option value="te">Telugu</option>
+                <option value="ur">Urdu</option>
+            </select>
+        </label>
+        <label>
+            Keyboard
+            <input type="checkbox" id="keyboardCheckbox" />
+        </label>
+    </div>
+    <div class="swalekh-container test-class"
+        style="width: 400px;height: 50px; background-color: gray; margin-left:400px" contenteditable="true"
+        id="123"></div>
+    <textarea class="swalekh-container" id="124"
+        style="width: 96vmax;height: 100px; padding: 7px; font-size: 2rem;" placeholder="Textarea"></textarea>
+    <br><br>
+    <div class="swalekh-container test-class"
+        style="width: 100vw;height: 200px;border: 2px solid black;padding: 7px; margin-left: 330px;margin-top: 200px;"
+        contenteditable="true" id="125"></div>
+    <br><br>
+    <input class="swalekh-container" id="126" style="width: 96vmax;height: 100px; padding: 7px;" placeholder="input" />
+    <br><br>
+    
+    <h1>Quill</h1>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet" />
+    <div id="toolbar">
+        <button class="ql-bold">Bold</button>
+        <button class="ql-italic">Italic</button>
+    </div>
+    <div id="editor"></div>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+    <script>
+        const quill = new Quill("#editor", {
+            theme: "snow",
+        });
+    </script>
+
+    <script src="swal-main.js"></script>
+    <script>
+        let lang = "hi";
+        let mode = "phonetic";
+        let keyboardEnabled = true;
+
+        const loadSwalekh = () => {
+            window.loadSwalekh({
+                apiKey: "172c5bb5af18516905473091fd58d30afe740b3f",
+                appId: "rev.transliteration",
+                elements: [document.getElementById("123"), document.getElementById("124"), document.getElementById("125"), document.getElementById("126")],
+                lang: lang,
+                modeToggle: true,
+                domain: '1',
+                noOfSuggestions: 5,
+                mode: mode,
+                theme: "reverie-red",
+            });
+        };
+
+        window.addEventListener('load', function () {
+            loadSwalekh();
+
+            $('#langSelect').on('change', function () {
+                lang = this.value;
+                if (lang === 'en') {
+                    window.unloadSwalekh({ querySel: '#123, #124, #125, #126' });
+                }
+                loadSwalekh();
+            });
+
+            $('#keyboardCheckbox').on('mousedown', function (e) {
+                e.preventDefault();
+            });
+
+            $('#keyboardCheckbox').on('change', function () {
+                keyboardEnabled = this.checked;
+                mode = keyboardEnabled ? "keyboard" : "phonetic";
+                window.trigger_mode_change(mode);
+            });
+        });
+    </script>
+</body>
+
+</html>
