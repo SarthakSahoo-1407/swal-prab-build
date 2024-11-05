@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <title>Getting Started</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-
     <!-- <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script> -->
 </head>
 
@@ -35,6 +34,9 @@
         </label>
     </div>
 
+    <div style="height: 200px; width: 800px; background-color: orange" contenteditable="true" id="swalekh-textarea3" class="swalekh-container test-class">
+        
+    </div>
     <textarea class="swalekh-container" id="swalekh-textarea3"
         style="width: 96vmax;height: 100px; padding: 7px; font-size: 2rem;" placeholder="Textarea"></textarea>
     <br><br>
@@ -89,6 +91,7 @@
             
 
         }
+
 
         const loadSwalekh = () => {
             window.loadSwalekh({
@@ -168,17 +171,10 @@
             $('#keyboardCheckbox').on('change', function (e) {
                 keyboardEnabled = this.checked;
                 mode = keyboardEnabled ? "keyboard" : "phonetic";
-                if(keyboardEnabled){
-                    mode = "keyboard";
-                    sessionStorage.setItem("mode", "keyboard");
-                }
-                else{
-                    mode = "phonetic";
-                    sessionStorage.setItem("mode", "phonetic");
-                }
                 window.trigger_mode_change(mode);
 
             });
+
     </script>
 </body>
 
