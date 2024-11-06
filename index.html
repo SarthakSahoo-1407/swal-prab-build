@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <title>Getting Started</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script> -->
 </head>
 
@@ -34,13 +35,15 @@
         </label>
     </div>
 
-    <div style="height: 200px; width: 800px; background-color: orange" contenteditable="true" id="swalekh-textarea3" class="swalekh-container test-class">
-        
+    <div style="height: 200px; width: 800px; background-color: orange" contenteditable="true" id="swalekh-textarea3"
+        class="swalekh-container test-class">
+
     </div>
     <textarea class="swalekh-container" id="swalekh-textarea3"
         style="width: 96vmax;height: 100px; padding: 7px; font-size: 2rem;" placeholder="Textarea"></textarea>
     <br><br>
-    <div class="swalekh-container test-class" style="width: 100vw;height: 200px;border: 2px solid black;padding: 7px; margin-left: 50px;margin-top: 200px;"
+    <div class="swalekh-container test-class"
+        style="width: 100vw;height: 200px;border: 2px solid black;padding: 7px; margin-left: 50px;margin-top: 200px;"
         contenteditable="true" id="swalekh-textarea3"></div>
     <br><br>
     <input class="swalekh-container" id="swalekh-textarea3" style="width: 96vmax;height: 100px; padding: 7px;"
@@ -86,9 +89,9 @@
         let mode = "phonetic";
         let keyboardEnabled = true;
 
-        function alerting(text){
-            console.log(text+"callback");
-            
+        function alerting(text) {
+            console.log(text + "callback");
+
 
         }
 
@@ -99,12 +102,15 @@
                 appId: "rev.transliteration",
                 querySel: "#swalekh-textarea3",
                 lang: lang,
-                modeToggle:true,
+                modeToggle: true,
+                langToggle: true,
                 domain: '1',
                 noOfSuggestions: 7,
-                mode:  "phonetic",
+                mode: "phonetic",
                 theme: "reverie-red",
-
+                clientCallBack:( function (message) {
+                    console.log("Received message:", message);
+                })
             });
 
             // window.loadSwalekh({
@@ -149,31 +155,31 @@
 
         }
 
-        document.querySelectorAll('#swalekh-textarea3').forEach((elem)=>{
+        document.querySelectorAll('#swalekh-textarea3').forEach((elem) => {
             elem.addEventListener('focus', function () {
                 loadSwalekh();
             });
         })
 
-            $('#langSelect').on('change', function () {
-                lang = this.value;
-                if (lang === 'en') {
-                    window.unloadSwalekh({ querySel: '#swalekh-textarea3' });
-                }
-                loadSwalekh();
-            });
+        $('#langSelect').on('change', function () {
+            lang = this.value;
+            if (lang === 'en') {
+                window.unloadSwalekh({ querySel: '#swalekh-textarea3' });
+            }
+            loadSwalekh();
+        });
 
-            $('#keyboardCheckbox').on('mousedown', function (e) {
-                e.preventDefault();
+        $('#keyboardCheckbox').on('mousedown', function (e) {
+            e.preventDefault();
 
-            })
+        })
 
-            $('#keyboardCheckbox').on('change', function (e) {
-                keyboardEnabled = this.checked;
-                mode = keyboardEnabled ? "keyboard" : "phonetic";
-                window.trigger_mode_change(mode);
+        $('#keyboardCheckbox').on('change', function (e) {
+            keyboardEnabled = this.checked;
+            mode = keyboardEnabled ? "keyboard" : "phonetic";
+            window.trigger_mode_change(mode);
 
-            });
+        });
 
     </script>
 </body>
