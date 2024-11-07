@@ -5,8 +5,12 @@
     <meta charset="utf-8" />
     <title>Getting Started</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <!-- <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script> -->
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jQuery UI JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -34,49 +38,27 @@
             <input type="checkbox" id="keyboardCheckbox" />
         </label>
     </div>
-
-    <div style="height: 200px; width: 800px; background-color: orange" contenteditable="true" id="swalekh-textarea3"
-        class="swalekh-container test-class">
-
-    </div>
-    <textarea class="swalekh-container" id="swalekh-textarea3"
+    <div class="swalekh-container test-class"
+        style="width: 400px;height: 50px; background-color: gray; margin-left:400px" contenteditable="true"
+        id="123"></div>
+    <textarea class="swalekh-container" id="124"
         style="width: 96vmax;height: 100px; padding: 7px; font-size: 2rem;" placeholder="Textarea"></textarea>
     <br><br>
     <div class="swalekh-container test-class"
-        style="width: 100vw;height: 200px;border: 2px solid black;padding: 7px; margin-left: 50px;margin-top: 200px;"
-        contenteditable="true" id="swalekh-textarea3"></div>
+        style="width: 100vw;height: 200px;border: 2px solid black;padding: 7px; margin-left: 330px;margin-top: 200px;"
+        contenteditable="true" id="125"></div>
     <br><br>
-    <input class="swalekh-container" id="swalekh-textarea3" style="width: 96vmax;height: 100px; padding: 7px;"
-        placeholder="input"></input>
+    <input class="swalekh-container" id="126" style="width: 96vmax;height: 100px; padding: 7px;" placeholder="input" />
     <br><br>
-    <h1>CK Editor</h1>
-    <!-- <div>
-        <textarea name="editor1"></textarea>
-        <script>
-            CKEDITOR.replace('editor1');
-        </script>
-    </div> -->
-    <br><br>
+    
     <h1>Quill</h1>
     <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet" />
-
-    <!-- Create the toolbar container -->
     <div id="toolbar">
         <button class="ql-bold">Bold</button>
         <button class="ql-italic">Italic</button>
     </div>
-
-    <!-- Create the editor container -->
-    <div id="editor">
-
-    </div>
-
-    <!-- Include the Quill library -->
+    <div id="editor"></div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
-    <br>
-    <br>
-
-    <!-- Initialize Quill editor -->
     <script>
         const quill = new Quill("#editor", {
             theme: "snow",
@@ -89,99 +71,46 @@
         let mode = "phonetic";
         let keyboardEnabled = true;
 
-        function alerting(text) {
-            console.log(text + "callback");
-
-
-        }
-
-
         const loadSwalekh = () => {
             window.loadSwalekh({
                 apiKey: "172c5bb5af18516905473091fd58d30afe740b3f",
                 appId: "rev.transliteration",
-                querySel: "#swalekh-textarea3",
+                elements: [document.getElementById("123"), document.getElementById("124"), document.getElementById("125"), document.getElementById("126")],
                 lang: lang,
                 modeToggle: true,
-                langToggle: true,
                 domain: '1',
-                noOfSuggestions: 7,
-                mode: "phonetic",
+                noOfSuggestions: 5,
+                mode: mode,
                 theme: "reverie-red",
                 clientCallBack:( function (message) {
                     console.log("Received message:", message);
                 })
             });
+        };
 
-            // window.loadSwalekh({
-            //     apiKey: "172c5bb5af18516905473091fd58d30afe740b3f",
-            //     appId: "rev.transliteration",
-            //     querySel: ".ql-editor",
-            //     lang: lang,
-            //     domain: '1',
-            //     noOfSuggestions: 5,
-            //     mode: mode,
-            //     theme: "reverie-red",
-            //     characterLimit:20,
+        window.addEventListener('load', function () {
+            loadSwalekh();
 
-            // });
-
-            // window.loadSwalekh({
-            //     apiKey: "172c5bb5af18516905473091fd58d30afe740b3f",
-            //     appId: "rev.transliteration",
-            //     querySel: ".test-class",
-            //     lang: lang,
-            //     domain: '1',
-            //     noOfSuggestions: 5,
-            //     mode: mode,
-            //     theme: "reverie-red",
-            //     characterLimit:lang==="hi"?10:20,
-
-            // })
-
-            // let elemsAux=document.querySelector("iframe").contentWindow.document.body;
-
-            // window.loadSwalekh({
-            //     apiKey: "172c5bb5af18516905473091fd58d30afe740b3f",
-            //     appId: "rev.transliteration",
-            //     lang: lang,
-            //     elements:[elemsAux],
-            //     characterLimit:100,
-            //     domain: '1',
-            //     noOfSuggestions: 7,
-            //     mode: mode,
-            //     theme: "reverie-red",
-            // })
-
-        }
-
-        document.querySelectorAll('#swalekh-textarea3').forEach((elem) => {
-            elem.addEventListener('focus', function () {
+            $('#langSelect').on('change', function () {
+                lang = this.value;
+                if (lang === 'en') {
+                    window.unloadSwalekh({ elements: [document.getElementById("123"), document.getElementById("124"), document.getElementById("125"), document.getElementById("126")] });
+                }
                 loadSwalekh();
             });
-        })
 
-        $('#langSelect').on('change', function () {
-            lang = this.value;
-            if (lang === 'en') {
-                window.unloadSwalekh({ querySel: '#swalekh-textarea3' });
-            }
-            loadSwalekh();
+            $('#keyboardCheckbox').on('mousedown', function (e) {
+                e.preventDefault();
+            });
+
+            $('#keyboardCheckbox').on('change', function () {
+                keyboardEnabled = this.checked;
+                mode = keyboardEnabled ? "keyboard" : "phonetic";
+                window.trigger_mode_change(mode);
+            });
         });
-
-        $('#keyboardCheckbox').on('mousedown', function (e) {
-            e.preventDefault();
-
-        })
-
-        $('#keyboardCheckbox').on('change', function (e) {
-            keyboardEnabled = this.checked;
-            mode = keyboardEnabled ? "keyboard" : "phonetic";
-            window.trigger_mode_change(mode);
-
-        });
-
     </script>
 </body>
 
 </html>
+
