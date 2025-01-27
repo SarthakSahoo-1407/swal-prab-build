@@ -37,6 +37,10 @@
             Keyboard
             <input type="checkbox" id="keyboardCheckbox" />
         </label>
+        <label>
+            Indic Input
+            <input type="checkbox" id="indicInputToggle" />
+        </label>
     </div>
     <div class="swalekh-container test-class"
         style="width: 400px;height: 50px; background-color: gray; margin-left:400px" contenteditable="true"
@@ -70,7 +74,8 @@
         let lang = "hi";
         let mode = "phonetic";
         let keyboardEnabled = true;
-
+        let indicInputEnabled = true; // Enable Indic Input by default
+    
         const loadSwalekh = () => {
             window.loadSwalekh({
                 apiKey: "172c5bb5af18516905473091fd58d30afe740b3f",
@@ -78,39 +83,60 @@
                 elements: [document.getElementById("123"), document.getElementById("124"), document.getElementById("125"), document.getElementById("126")],
                 lang: lang,
                 modeToggle: true,
+                langToggle: true,
                 domain: '1',
                 noOfSuggestions: 5,
                 mode: mode,
+                enterKeyEnabled: true,
+
                 theme: "reverie-red",
-                clientCallBack:( function (message) {
+                clientCallBack: (function (message) {
                     console.log("Received message:", message);
                 })
             });
         };
-
+    
+        const unloadSwalekh = () => {
+            window.unloadSwalekh({
+                elements: [document.getElementById("123"), document.getElementById("124"), document.getElementById("125"), document.getElementById("126")]
+            });
+        };
+    
         window.addEventListener('load', function () {
-            loadSwalekh();
-
+            $('#indicInputToggle').prop('checked', true); // Check the toggle by default
+            loadSwalekh(); // Initialize Swalekh on load
+    
             $('#langSelect').on('change', function () {
                 lang = this.value;
-                if (lang === 'en') {
-                    window.unloadSwalekh({ elements: [document.getElementById("123"), document.getElementById("124"), document.getElementById("125"), document.getElementById("126")] });
+                if (indicInputEnabled) {
+                    unloadSwalekh();
+                    loadSwalekh();
                 }
-                loadSwalekh();
             });
-
+    
             $('#keyboardCheckbox').on('mousedown', function (e) {
                 e.preventDefault();
             });
-
+    
             $('#keyboardCheckbox').on('change', function () {
                 keyboardEnabled = this.checked;
                 mode = keyboardEnabled ? "keyboard" : "phonetic";
-                window.trigger_mode_change(mode);
+                if (indicInputEnabled) {
+                    window.trigger_mode_change(mode);
+                }
+            });
+    
+            $('#indicInputToggle').on('change', function () {
+                indicInputEnabled = this.checked;
+                if (indicInputEnabled) {
+                    loadSwalekh();
+                } else {
+                    unloadSwalekh();
+                }
             });
         });
     </script>
+    
 </body>
 
 </html>
-
